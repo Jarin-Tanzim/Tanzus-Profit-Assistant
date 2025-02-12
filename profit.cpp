@@ -79,39 +79,6 @@ void profitCalculator(string loggedInUser) {
     }
 }
 
-void generateSummaryReport(string loggedInUser) {
-    string filename = "ProfitRecords_" + loggedInUser + ".txt";
-    ifstream file(filename);
-
-    if (!file) {
-        cout << "No records found.\n";
-        return;
-    }
-
-    string dateOrMonth, line;
-    float totalProfit = 0, totalLoss = 0;
-    int transactionCount = 0;
-
-    cout << "Enter date (YYYY-MM-DD) or month (YYYY-MM): ";
-    cin >> dateOrMonth;
-
-    while (getline(file, line)) {
-        if (line.find("Date: " + dateOrMonth) != string::npos) {
-            transactionCount++;
-            if (line.find("Profit: ") != string::npos) {
-                totalProfit += stof(line.substr(line.find("Profit: ") + 8));
-            } else if (line.find("Loss: ") != string::npos) {
-                totalLoss += stof(line.substr(line.find("Loss: ") + 6));
-            }
-        }
-    }
-
-    cout << "\nSummary for " << dateOrMonth << ":\n";
-    cout << "Transactions: " << transactionCount << "\n";
-    cout << "Total Profit: " << totalProfit << " BDT\n";
-    cout << "Total Loss: " << totalLoss << " BDT\n";
-}
-
 int main() {
     string loggedInUser;
     int choice;
@@ -130,13 +97,11 @@ int main() {
     }
 
     while (true) {
-        cout << "\nMain Menu:\n1. Calculate Profit/Loss\n2. Summary Report\n3. Logout\nEnter choice: ";
+        cout << "\nMain Menu:\n1. Calculate Profit/Loss\n2. Logout\nEnter choice: ";
         cin >> choice;
 
         if (choice == 1) {
             profitCalculator(loggedInUser);
-        } else if (choice == 2) {
-            generateSummaryReport(loggedInUser);
         } else {
             break;
         }
